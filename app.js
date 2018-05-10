@@ -162,7 +162,7 @@ client.on("message", async message => {
   const embed = new Discord.RichEmbed()
   let sicon = message.guild.iconURL;
   embed.addField('✰ | Ce este acest server?', `:black_medium_small_square: **DISCORD TEAM** - Este un server creat pe data de 20.04.2018 de catre xJokerFTW, serverul predispune de un staff echilibrat,dar totusi suntem in cautare de Staff! `)
-  embed.addField('✰ | Ce trebuie sa faci ca sa primesti Helper?', `:black_medium_small_square: Trebuie sa mergi la #staff-apply si sa faci o cerere respectand modelul dat. Dar desigur noi avem si niste cerinte, sa ai minim 13 ani, level 3 pe server, o gramatica buna si un limbaj cat mai adecvat.`)
+  embed.addField('✰ | Ce trebuie sa faci ca sa primesti Helper?', `:black_medium_small_square: Trebuie sa mergi la #cereri-staff si sa faci o cerere respectand modelul dat. Dar desigur noi avem si niste cerinte, sa ai minim 13 ani, level 3 pe server, o gramatica buna si un limbaj cat mai adecvat.`)
   embed.addField('✰ | Linkuri Importante', `:black_small_square: Comunitatea cu care noi suntem parteneri - http://painlessgaming.org`)
   embed.setColor(0x7CB9E8)
   embed.setThumbnail(message.guild.iconURL)

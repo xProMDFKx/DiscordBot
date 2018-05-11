@@ -51,10 +51,10 @@ client.on("message", async message => {
     m.edit(`✰ | Pong! Latența ta este de ${m.createdTimestamp - message.createdTimestamp}ms. Latența ta API este de ${Math.round(client.ping)}ms`);
   }
   
-exports.run = (client, message, args) => {
+  if(command === "mute") {
   let reason = args.slice(1).join(' ');
   let user = message.mentions.users.first();
-  let modlog = client.channels.find('name', 'mod-log');
+  let modlog = client.channels.find('name', 'logs');
   let muteRole = client.guilds.get(message.guild.id).roles.find('name', 'muted');
   if (!modlog) return message.reply('I cannot find a mod-log channel').catch(console.error);
   if (!muteRole) return message.reply('I cannot find a mute role').catch(console.error);
@@ -79,19 +79,6 @@ exports.run = (client, message, args) => {
     });
   }
 
-};
-
-exports.conf = {
-  enabled: true,
-  guildOnly: false,
-  aliases: [],
-  permLevel: 0
-};
-
-exports.help = {
-  name: 'mute',
-  description: 'mutes or unmutes a mentioned user',
-  usage: 'un/mute [mention]'
 };
   
   if(command === "say") {

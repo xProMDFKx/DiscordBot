@@ -73,6 +73,10 @@ client.on("message", async message => {
     reportschannel.send(reportEmbed);
 
 }
+ 
+module.exports.help = {
+  name: "report"
+}
   
   if(command === "say") {
     // makes the bot say something and delete the message. As an example, it's open to anyone to use. 

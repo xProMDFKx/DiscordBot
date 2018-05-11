@@ -56,8 +56,8 @@ client.on("message", async message => {
   let user = message.mentions.users.first();
   let modlog = client.channels.find('name', 'logs');
   if (!modlog) return message.reply('I cannot find a mod-log channel');
-  if (reason.length < 1) return message.reply('You must supply a reason for the warning.');
   if (message.mentions.users.size < 1) return message.reply('You must mention someone to warn them.').catch(console.error);
+  if (reason.length < 1) return message.reply('You must supply a reason for the warning.');
   const embed = new Discord.RichEmbed()
   .setColor(0x00AE86)
   .setTimestamp()
@@ -65,6 +65,8 @@ client.on("message", async message => {
   .addField('User:', `${user.username}#${user.discriminator}`)
   .addField('Modrator:', `${message.author.username}#${message.author.discriminator}`);
   return client.channels.get(modlog.id).sendEmbed(embed);
+     const m = await message.channel.send("Warn");
+    m.edit(`${user.username}#${user.discriminator} a primit cu succes un warn.`);
 };
   
   if(command === "say") {

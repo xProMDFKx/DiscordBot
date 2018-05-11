@@ -51,7 +51,7 @@ client.on("message", async message => {
     m.edit(`✰ | Pong! Latența ta este de ${m.createdTimestamp - message.createdTimestamp}ms. Latența ta API este de ${Math.round(client.ping)}ms`);
   }
   
-  module.exports.run = async (bot, message, args) => {
+  if(command === "report") {
     let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     if(!rUser) return message.channel.send("Couldn't find user.");
     let rreason = args.join(" ").slice(22);
@@ -72,10 +72,6 @@ client.on("message", async message => {
     message.delete().catch(O_o=>{});
     reportschannel.send(reportEmbed);
 
-}
- 
-module.exports.help = {
-  name: "report"
 }
   
   if(command === "say") {

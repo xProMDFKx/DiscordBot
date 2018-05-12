@@ -64,7 +64,7 @@ fs.readdir("./commands/", (err, files) => {
     let props = require(`./commands/${f}`);
     console.log(`${f} loaded!`);
     bot.commands.set(props.help.name, props);
-  }
+  })
   
   if(command === "say") {
     // makes the bot say something and delete the message. As an example, it's open to anyone to use. 

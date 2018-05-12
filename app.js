@@ -66,7 +66,7 @@ client.on("message", async message => {
   .addField('Modrator:', `${message.author.username}#${message.author.discriminator}`);
   return client.channels.get(modlog.id).sendEmbed(embed);
     
-  const embed = new Discord.RichEmbed()
+  const embedchat = new Discord.RichEmbed()
   let sicon = message.guild.iconURL;
   embed.addField('✰ | **WARN**', `${user.username}#${user.discriminator} a primit cu succes warn`)
   embed.setColor(0x7CB9E8)

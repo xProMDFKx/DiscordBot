@@ -59,20 +59,14 @@ client.on("message", async message => {
   if (message.mentions.users.size < 1) return message.reply('You must mention someone to warn them.').catch(console.error);
   if (reason.length < 1) return message.reply('You must supply a reason for the warning.');
   const embed = new Discord.RichEmbed()
-  .setColor(0x00AE86)
-  .setTimestamp()
-  .addField('Action:', 'Warning')
-  .addField('User:', `${user.username}#${user.discriminator}`)
-  .addField('Modrator:', `${message.author.username}#${message.author.discriminator}`);
-  return client.channels.get(modlog.id).sendEmbed(embed);
-    
-  const embedchat = new Discord.RichEmbed()
   let sicon = message.guild.iconURL;
-  embed.addField('✰ | **WARN**', `${user.username}#${user.discriminator} a primit cu succes warn`)
+  embed.addField('✰ | **WARN**', '${user.username}#${user.discriminator} a primit warn de la ${message.author.username}#${message.author.discriminator}')
+  embed.addField('✰ | **MOTIV**', `${reason.length}`)
   embed.setColor(0x7CB9E8)
   embed.setThumbnail(message.guild.iconURL)
   embed.setFooter('Lista pentru ajutor', message.guild.iconURL)
   message.channel.sendEmbed(embedchat)
+    
 };
   
   if(command === "say") {

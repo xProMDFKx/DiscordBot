@@ -72,7 +72,7 @@ client.on("message", async message => {
   embed.setColor(0x7CB9E8)
   embed.setThumbnail(message.guild.iconURL)
   embed.setFooter('Lista pentru ajutor', message.guild.iconURL)
-  message.channel.sendEmbed(embed)
+  message.channel.sendEmbed(embedchat)
 };
   
   if(command === "say") {

@@ -65,7 +65,7 @@ fs.readdir('./commands/', (err, files) => {
     client.commands.set(props.help.name, props);
     props.conf.aliases.forEach(alias => {
       client.aliases.set(alias, props.help.name);
-  }
+  });
   
   if(command === "say") {
     // makes the bot say something and delete the message. As an example, it's open to anyone to use. 

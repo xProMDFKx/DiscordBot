@@ -65,8 +65,14 @@ client.on("message", async message => {
   .addField('User:', `${user.username}#${user.discriminator}`)
   .addField('Modrator:', `${message.author.username}#${message.author.discriminator}`);
   return client.channels.get(modlog.id).sendEmbed(embed);
-     const m = await message.channel.send("Warn");
-    m.edit(`${user.username}#${user.discriminator} a primit cu succes un warn.`);
+    
+  const embed = new Discord.RichEmbed()
+  let sicon = message.guild.iconURL;
+  embed.addField('✰ | **WARN**', `${user.username}#${user.discriminator} a primit cu succes warn`)
+  embed.setColor(0x7CB9E8)
+  embed.setThumbnail(message.guild.iconURL)
+  embed.setFooter('Lista pentru ajutor', message.guild.iconURL)
+  message.channel.sendEmbed(embed)
 };
   
   if(command === "say") {

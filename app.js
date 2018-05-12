@@ -285,7 +285,6 @@ module.exports.run = async (bot, message, args) => {
     const m = await message.channel.send("Salut?");
     m.edit(`Vrei sa ii trimi cuiva un salut? :heavy_check_mark: (Exemplu: /salut @username)`);
   }
-});
 
 client.on('guildMemberAdd', member => {
     let channel = member.guild.channels.find('name', 'welcome-leave');

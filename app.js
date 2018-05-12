@@ -9,9 +9,6 @@ const client = new Discord.Client();
 // Sall
 const fs = require("fs");
 
-// CSF 
-bot.commands = new Discord.Collection();
-
 // Here we load the config.json file that contains our token and our prefix values. 
 const config = require("./config.json");
 // config.token contains the bot's token
@@ -57,13 +54,17 @@ client.on("message", async message => {
     m.edit(`✰ | Pong! Latența ta este de ${m.createdTimestamp - message.createdTimestamp}ms. Latența ta API este de ${Math.round(client.ping)}ms`);
   }
   
-fs.readdir("./commands/", (err, files) => {
-
-  if(err) console.log(err);
-  let jsfile = files.filter(f => f.split(".").pop() === "js");
-  if(jsfile.length <= 0){
-    console.log("Couldn't find commands.");
-    return;
+client.commands = new Discord.Collection();
+client.aliases = new Discord.Collection();
+fs.readdir('./commands/', (err, files) => {
+  if (err) console.error(err);
+  log(`Loading a total of ${files.length} commands.`);
+  files.forEach(f => {
+    let props = require(`./commands/${f}`);
+    log(`Loading Command: ${props.help.name}. 👌`);
+    client.commands.set(props.help.name, props);
+    props.conf.aliases.forEach(alias => {
+      client.aliases.set(alias, props.help.name);
   }
   
   if(command === "say") {

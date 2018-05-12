@@ -6,10 +6,6 @@ const Discord = require("discord.js");
 // this is what we're refering to. Your client.
 const client = new Discord.Client();
 
-// Variables
-    let prefix = '~';
-    let msg = message.content.toUpperCase();
-
 // Here we load the config.json file that contains our token and our prefix values. 
 const config = require("./config.json");
 // config.token contains the bot's token
@@ -55,7 +51,7 @@ client.on("message", async message => {
     m.edit(`✰ | Pong! Latența ta este de ${m.createdTimestamp - message.createdTimestamp}ms. Latența ta API este de ${Math.round(client.ping)}ms`);
   }
   
- if(command === "${prefix}BALANCE" || command === "${prefix}MONEY") { // This will run if the message is either ~BALANCE or ~MONEY
+ if(command === "BALANCE" || command === "MONEY") { // This will run if the message is either ~BALANCE or ~MONEY
 
         // Additional Tip: If you want to make the values guild-unique, simply add + message.guild.id whenever you request.
         economy.fetchBalance(message.author.id + message.guild.id).then((i) => { // economy.fetchBalance grabs the userID, finds it, and puts the data with it into i.
@@ -66,7 +62,7 @@ client.on("message", async message => {
                 .addField('Account Holder',message.author.username,true) // The TRUE makes the embed inline. Account Holder is the title, and message.author is the value
                 .addField('Account Balance',i.money,true)
             message.channel.send({embed})
-        })
+        });
                                                                         
   if(command === "say") {
     // makes the bot say something and delete the message. As an example, it's open to anyone to use. 

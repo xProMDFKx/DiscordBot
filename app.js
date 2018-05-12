@@ -54,80 +54,6 @@ client.on("message", async message => {
     m.edit(`✰ | Pong! Latența ta este de ${m.createdTimestamp - message.createdTimestamp}ms. Latența ta API este de ${Math.round(client.ping)}ms`);
   }
   
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-async function SolveRecaptchaV2(APIKey, googleKey, pageUrl, proxy, proxyType){
-            var requestUrl = "https://2captcha.com/in.php?key=" + APIKey + "&method=userrecaptcha&googlekey=" + googleKey + "&pageurl=" + pageUrl + "&proxy=" + proxy + "&proxytype=";
-
-            switch (proxyType) {
-                case 'HTTP':
-                requestUrl = requestUrl + "HTTP";
-                break;
-
-                case 'HTTPS':
-                requestUrl = requestUrl + "HTTPS";
-                break;
-
-                case 'SOCKS4':
-                requestUrl = requestUrl + "SOCKS4";
-                break;
-
-                case 'SOCKS5':
-                requestUrl = requestUrl + "SOCKS5";
-                break;
-            }   
-            $.ajax({url: requestUrl, success: function(result){
-                if(result.length < 3){
-                    return false;
-                }else{
-                    if(result.substring(0, 3) == "OK|"){
-                        var captchaID = result.substring(3);
-
-                        for(var i=0; i<24; i++){
-                            var ansUrl = "https://2captcha.com/res.php?key=" + APIKey + "&action=get&id=" + captchaID;  
-
-                            $.ajax({url: ansUrl, success: function(ansresult){
-                                    console.log(ansresult);
-                                    if(ansresult.length < 3){
-                                        return ansresult;
-                                    }else{
-                                        if(ansresult.substring(0, 3) == "OK|"){
-                                            return ansresult;
-                                        }else if (ansresult != "CAPCHA_NOT_READY"){
-                                            return ansresult;
-                                        }
-                                    }
-                                }
-                            });
-                            await sleep(1000);
-                        }
-
-                    }else{
-                        return ansresult;   
-                    }
-                }
-            },
-            fail: function(){
-                return "";
-                }
-            });
-
-        }
-  
-client.commands = new Discord.Collection();
-client.aliases = new Discord.Collection();
-fs.readdir('./commands/', (err, files) => {
-  if (err) console.error(err);
-  log(`Loading a total of ${files.length} commands.`);
-  files.forEach(f => {
-    let props = require(`./commands/${f}`);
-    log(`Loading Command: ${props.help.name}. 👌`);
-    client.commands.set(props.help.name, props);
-    props.conf.aliases.forEach(alias => {
-      client.aliases.set(alias, props.help.name);
-  });
-  
   if(command === "say") {
     // makes the bot say something and delete the message. As an example, it's open to anyone to use. 
     // To get the "message" itself we join the `args` back into a string with spaces: 
@@ -136,6 +62,61 @@ fs.readdir('./commands/', (err, files) => {
     message.delete().catch(O_o=>{}); 
     // And we get the bot to say the thing: 
     message.channel.send(sayMessage);
+  }
+  
+const fs = require("fs");
+const ms = require("ms");
+let warns = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
+
+module.exports.run = async (bot, message, args) => {
+
+  //!warn @daeshan <reason>
+  if(!message.member.hasPermission("MANAGE_MEMBERS")) return message.reply("No can do pal!");
+  let wUser = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0])
+  if(!wUser) return message.reply("Couldn't find them yo");
+  if(wUser.hasPermission("MANAGE_MESSAGES")) return message.reply("They waaaay too kewl");
+  let reason = args.join(" ").slice(22);
+
+  if(!warns[wUser.id]) warns[wUser.id] = {
+    warns: 0
+  };
+
+  warns[wUser.id].warns++;
+
+  fs.writeFile("./warnings.json", JSON.stringify(warns), (err) => {
+    if (err) console.log(err)
+  });
+
+  let warnEmbed = new Discord.RichEmbed()
+  .setDescription("Warns")
+  .setAuthor(message.author.username)
+  .setColor("#fc6400")
+  .addField("Warned User", `<@${wUser.id}>`)
+  .addField("Warned In", message.channel)
+  .addField("Number of Warnings", warns[wUser.id].warns)
+  .addField("Reason", reason);
+
+  let warnchannel = message.guild.channels.find(`name`, "incidents");
+  if(!warnchannel) return message.reply("Couldn't find channel");
+
+  warnchannel.send(warnEmbed);
+
+  if(warns[wUser.id].warns == 2){
+    let muterole = message.guild.roles.find(`name`, "muted");
+    if(!muterole) return message.reply("You should create that role dude.");
+
+    let mutetime = "10s";
+    await(wUser.addRole(muterole.id));
+    message.channel.send(`<@${wUser.id}> has been temporarily muted`);
+
+    setTimeout(function(){
+      wUser.removeRole(muterole.id)
+      message.reply(`<@${wUser.id}> has been unmuted.`)
+    }, ms(mutetime))
+  }
+  if(warns[wUser.id].warns == 3){
+    message.guild.member(wUser).ban(reason);
+    message.reply(`<@${wUser.id}> has been banned.`)
   }
   
   if(command === "kick") {

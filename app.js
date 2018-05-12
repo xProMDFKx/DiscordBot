@@ -51,23 +51,20 @@ client.on("message", async message => {
     m.edit(`✰ | Pong! Latența ta este de ${m.createdTimestamp - message.createdTimestamp}ms. Latența ta API este de ${Math.round(client.ping)}ms`);
   }
   
-  if(command === "warn") {
-  let reason = args.slice(1).join(' ');
-  let user = message.mentions.users.first();
-  let modlog = client.channels.find('name', 'logs');
-  if (!modlog) return message.reply('I cannot find a mod-log channel');
-  if (message.mentions.users.size < 1) return message.reply('You must mention someone to warn them.').catch(console.error);
-  if (reason.length < 1) return message.reply('You must supply a reason for the warning.');
-  const embed = new Discord.RichEmbed()
-  let sicon = message.guild.iconURL;
-  embed.addField('✰ | **WARN**', '${user.username}#${user.discriminator} a primit warn de la ${message.author.username}#${message.author.discriminator}')
-  embed.addField('✰ | **MOTIV**', `${reason.length}`)
-  embed.setColor(0x7CB9E8)
-  embed.setThumbnail(message.guild.iconURL)
-  embed.setFooter('Lista pentru ajutor', message.guild.iconURL)
-  message.channel.sendEmbed(embedchat)
-    
-};
+fs.readdir("./commands/", (err, files) => {
+
+  if(err) console.log(err);
+  let jsfile = files.filter(f => f.split(".").pop() === "js");
+  if(jsfile.length <= 0){
+    console.log("Couldn't find commands.");
+    return;
+  }
+
+  jsfile.forEach((f, i) =>{
+    let props = require(`./commands/${f}`);
+    console.log(`${f} loaded!`);
+    bot.commands.set(props.help.name, props);
+  }
   
   if(command === "say") {
     // makes the bot say something and delete the message. As an example, it's open to anyone to use. 

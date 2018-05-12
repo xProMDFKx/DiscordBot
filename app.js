@@ -6,6 +6,12 @@ const Discord = require("discord.js");
 // this is what we're refering to. Your client.
 const client = new Discord.Client();
 
+// Sall
+const fs = require("fs");
+
+// CSF 
+bot.commands = new Discord.Collection();
+
 // Here we load the config.json file that contains our token and our prefix values. 
 const config = require("./config.json");
 // config.token contains the bot's token

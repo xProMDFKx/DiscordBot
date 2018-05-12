@@ -66,7 +66,7 @@ client.on("message", async message => {
                 .addField('Account Holder',message.author.username,true) // The TRUE makes the embed inline. Account Holder is the title, and message.author is the value
                 .addField('Account Balance',i.money,true)
             message.channel.send({embed})
-        }
+        })
                                                                         
   if(command === "say") {
     // makes the bot say something and delete the message. As an example, it's open to anyone to use. 
